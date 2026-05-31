@@ -20,9 +20,9 @@ yarn add postcss-plugin-px2unit
 // postcss.config.js
 export default {
   plugins: {
-    'postcss-plugin-px2unit': {}
-  }
-}
+    'postcss-plugin-px2unit': {},
+  },
+};
 ```
 
 ### With Options
@@ -33,22 +33,22 @@ export default {
   plugins: {
     'postcss-plugin-px2unit': {
       unit: 'rem',
-      ratio: 16
-    }
-  }
-}
+      ratio: 16,
+    },
+  },
+};
 ```
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `unit` | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit |
-| `ratio` | `number` | `16` | Base font size for rem calculation |
-| `viewportWidth` | `number` | `375` | Viewport width for vw/vmin/vmax |
-| `viewportHeight` | `number` | `667` | Viewport height for vh/vmin/vmax |
-| `minPixelValue` | `number` | `1` | Minimum pixel value to convert |
-| `exclude` | `RegExp \| string[]` | `[]` | Selectors to exclude |
+| Option           | Type                                        | Default | Description                        |
+| ---------------- | ------------------------------------------- | ------- | ---------------------------------- |
+| `unit`           | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit                        |
+| `ratio`          | `number`                                    | `16`    | Base font size for rem calculation |
+| `viewportWidth`  | `number`                                    | `375`   | Viewport width for vw/vmin/vmax    |
+| `viewportHeight` | `number`                                    | `667`   | Viewport height for vh/vmin/vmax   |
+| `minPixelValue`  | `number`                                    | `1`     | Minimum pixel value to convert     |
+| `exclude`        | `RegExp \| string[]`                        | `[]`    | Selectors to exclude               |
 
 ## Examples
 
