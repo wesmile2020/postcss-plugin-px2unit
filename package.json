@@ -1,0 +1,36 @@
+{
+  "name": "postcss-plugin-px2unit",
+  "version": "0.1.0",
+  "description": "A PostCSS plugin to convert px to rem, vw, etc.",
+  "keywords": [
+    "postcss",
+    "postcss-plugin",
+    "px2rem",
+    "px2unit",
+    "px2vw"
+  ],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "format": "oxfmt",
+    "lint": "oxlint"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "oxfmt": "^0.52.0",
+    "oxlint": "^1.67.0",
+    "postcss": "^8.5.15",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.12"
+  }
+}
