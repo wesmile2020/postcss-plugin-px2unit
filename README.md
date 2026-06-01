@@ -33,7 +33,7 @@ export default {
   plugins: {
     'postcss-plugin-px2unit': {
       unit: 'rem',
-      ratio: 16,
+      rootValue: 16,
     },
   },
 };
@@ -41,14 +41,21 @@ export default {
 
 ## Options
 
-| Option           | Type                                        | Default | Description                        |
-| ---------------- | ------------------------------------------- | ------- | ---------------------------------- |
-| `unit`           | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit                        |
-| `ratio`          | `number`                                    | `16`    | Base font size for rem calculation |
-| `viewportWidth`  | `number`                                    | `375`   | Viewport width for vw/vmin/vmax    |
-| `viewportHeight` | `number`                                    | `667`   | Viewport height for vh/vmin/vmax   |
-| `minPixelValue`  | `number`                                    | `1`     | Minimum pixel value to convert     |
-| `exclude`        | `RegExp \| string[]`                        | `[]`    | Selectors to exclude               |
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `unit` | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit |
+| `rootValue` | `number \| ((filePath?: string) => number)` | `16` | Root value for unit calculation, can be a function that receives filePath (optional) |
+| `minPixelValue` | `number` | `1` | Minimum pixel value to convert |
+| `exclude` | `RegExp \| string[]` | `[]` | Selectors to exclude |
+
+## Conversion Formula
+
+All units use the same `rootValue` for calculation:
+
+| Unit | Formula |
+|------|---------|
+| `rem` | `px / rootValue` |
+| `vw` / `vh` / `vmin` / `vmax` | `(px / rootValue) * 100` |
 
 ## Examples
 
@@ -64,7 +71,7 @@ export default {
 }
 ```
 
-### Output (unit: 'rem', ratio: 16)
+### Output (unit: 'rem', rootValue: 16)
 
 ```css
 .box {
@@ -76,7 +83,7 @@ export default {
 }
 ```
 
-### Output (unit: 'vw', viewportWidth: 375)
+### Output (unit: 'vw', rootValue: 375)
 
 ```css
 .box {

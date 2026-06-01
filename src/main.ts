@@ -2,7 +2,7 @@ import type { PluginCreator } from 'postcss';
 
 import type { Options } from './options';
 import { defaultOptions } from './options';
-import { convertPxToUnit, createExcludePatterns, isExcluded } from './utils';
+import { convertPxToUnit, createExcludePatterns, getRootValue, isExcluded } from './utils';
 
 const px2unit: PluginCreator<Options> = function (options = {}) {
   const opts = {
@@ -17,10 +17,13 @@ const px2unit: PluginCreator<Options> = function (options = {}) {
 
     Rule(rule) {
       if (!rule.selector || isExcluded(rule.selector, excludePatterns)) return;
+      
+      const filePath = rule.source?.input.file;
+      const rootValue = getRootValue(opts.rootValue, filePath);
 
       rule.walkDecls((decl) => {
-        if (!decl.value || !decl.value.includes('px')) return;
-        decl.value = convertPxToUnit(decl.value, opts);
+        if (!decl.value || !/px/.test(decl.value)) return;
+        decl.value = convertPxToUnit(decl.value, rootValue, opts.unit, opts.minPixelValue);
       });
     },
   };

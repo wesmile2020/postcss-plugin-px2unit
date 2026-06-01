@@ -1,31 +1,32 @@
-import type { RequiredOptions } from '../options';
+import type { Options } from '../options';
 
-export function convertPxToUnit(value: string, opts: RequiredOptions): string {
+export function getRootValue(rootValue: Options['rootValue'], filePath?: string): number {
+  if (typeof rootValue === 'function') {
+    return rootValue(filePath);
+  }
+  return rootValue ?? 16;
+}
+
+export function convertPxToUnit(value: string, rootValue: number, unit: Options['unit'], minPixelValue: number): string {
   return value.replace(/(\d*\.?\d+)px/g, (match, numStr) => {
     const num = parseFloat(numStr);
-    if (num < opts.minPixelValue) return match;
+    if (num < minPixelValue) return match;
 
     let result: number;
-    switch (opts.unit) {
+    switch (unit) {
       case 'vw':
-        result = (num / opts.viewportWidth) * 100;
-        break;
       case 'vh':
-        result = (num / opts.viewportHeight) * 100;
-        break;
       case 'vmin':
-        result = (num / Math.min(opts.viewportWidth, opts.viewportHeight)) * 100;
-        break;
       case 'vmax':
-        result = (num / Math.max(opts.viewportWidth, opts.viewportHeight)) * 100;
+        result = (num / rootValue) * 100;
         break;
       case 'rem':
       default:
-        result = num / opts.ratio;
+        result = num / rootValue;
         break;
     }
 
-    return result.toFixed(4).replace(/\.?0+$/, '') + opts.unit;
+    return result.toFixed(4).replace(/\.?0+$/, '') + unit;
   });
 }
 
