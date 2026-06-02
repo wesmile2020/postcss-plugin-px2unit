@@ -1,3 +1,5 @@
+import type { Document, Rule } from 'postcss';
+
 import type { Options } from '../options';
 
 export function getRootValue(rootValue: Options['rootValue'], filePath?: string): number {
@@ -7,10 +9,20 @@ export function getRootValue(rootValue: Options['rootValue'], filePath?: string)
   return rootValue ?? 16;
 }
 
-export function convertPxToUnit(value: string, rootValue: number, unit: Options['unit'], minPixelValue: number): string {
+export interface ConvertConfig {
+  rootValue: number;
+  unit: Options['unit'];
+  minPixelValue: number;
+  precision: number;
+}
+
+export function convertPxToUnit(value: string, config: ConvertConfig): string {
+  const { rootValue, unit, minPixelValue, precision } = config;
   return value.replace(/(\d*\.?\d+)px/g, (match, numStr) => {
     const num = parseFloat(numStr);
-    if (num < minPixelValue) return match;
+    if (num < minPixelValue) {
+      return match;
+    }
 
     let result: number;
     switch (unit) {
@@ -26,14 +38,52 @@ export function convertPxToUnit(value: string, rootValue: number, unit: Options[
         break;
     }
 
-    return result.toFixed(4).replace(/\.?0+$/, '') + unit;
+    return result.toFixed(precision).replace(/\.?0+$/, '') + unit;
   });
 }
 
 export function createExcludePatterns(exclude: RegExp | string[]): RegExp[] {
-  return Array.isArray(exclude) ? exclude.map((p) => new RegExp(p)) : [exclude];
+  if (Array.isArray(exclude)) {
+    return exclude.map((p) => new RegExp(p));
+  }
+  return [exclude];
 }
 
-export function isExcluded(selector: string, patterns: RegExp[]): boolean {
+export function isExcluded(filePath: string | undefined, patterns: RegExp[]): boolean {
+  if (!filePath) {
+    return true;
+  }
+  return patterns.some((pattern) => pattern.test(filePath));
+}
+
+export function isPropInWhiteList(prop: string, patterns: RegExp[]): boolean {
+  if (patterns.length === 0) {
+    return true;
+  }
+  return patterns.some((pattern) => pattern.test(prop));
+}
+
+export function isPropInBlackList(prop: string, patterns: RegExp[]): boolean {
+  if (patterns.length === 0) {
+    return false;
+  }
+  return patterns.some((pattern) => pattern.test(prop));
+}
+
+export function isSelectorInBlackList(selector: string, patterns: RegExp[]): boolean {
+  if (patterns.length === 0) {
+    return false;
+  }
   return patterns.some((pattern) => pattern.test(selector));
+}
+
+export function isInMediaQuery(rule: Rule): boolean {
+  let current: Rule['parent'] | Document = rule.parent;
+  while (current) {
+    if (current.type === 'atrule' && current.name === 'media') {
+      return true;
+    }
+    current = current.parent;
+  }
+  return false;
 }
