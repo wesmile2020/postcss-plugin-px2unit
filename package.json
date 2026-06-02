@@ -14,14 +14,16 @@
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
+  "types": "./dist/typings/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
+      "types": "./dist/typings/index.d.ts",
       "require": "./dist/index.cjs.js"
     }
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && npm run typings",
     "format": "oxfmt",
     "lint": "oxlint",
     "typings": "extract-typings -e src/main.ts -o dist/typings -f index -c"

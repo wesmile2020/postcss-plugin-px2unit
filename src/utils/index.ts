@@ -51,7 +51,7 @@ export function createExcludePatterns(exclude: RegExp | string[]): RegExp[] {
 
 export function isExcluded(filePath: string | undefined, patterns: RegExp[]): boolean {
   if (!filePath) {
-    return true;
+    return false;
   }
   return patterns.some((pattern) => pattern.test(filePath));
 }
