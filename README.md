@@ -41,20 +41,20 @@ export default {
 
 ## Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `unit` | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit |
-| `rootValue` | `number \| ((filePath?: string) => number)` | `16` | Root value for unit calculation, can be a function that receives filePath (optional) |
-| `minPixelValue` | `number` | `1` | Minimum pixel value to convert |
-| `exclude` | `RegExp \| string[]` | `[]` | Selectors to exclude |
+| Option          | Type                                        | Default | Description                                                                          |
+| --------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `unit`          | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit                                                                          |
+| `rootValue`     | `number \| ((filePath?: string) => number)` | `16`    | Root value for unit calculation, can be a function that receives filePath (optional) |
+| `minPixelValue` | `number`                                    | `1`     | Minimum pixel value to convert                                                       |
+| `exclude`       | `RegExp \| string[]`                        | `[]`    | Selectors to exclude                                                                 |
 
 ## Conversion Formula
 
 All units use the same `rootValue` for calculation:
 
-| Unit | Formula |
-|------|---------|
-| `rem` | `px / rootValue` |
+| Unit                          | Formula                  |
+| ----------------------------- | ------------------------ |
+| `rem`                         | `px / rootValue`         |
 | `vw` / `vh` / `vmin` / `vmax` | `(px / rootValue) * 100` |
 
 ## Examples

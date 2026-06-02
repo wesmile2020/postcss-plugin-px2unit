@@ -16,14 +16,22 @@ const px2unit: PluginCreator<Options> = function (options = {}) {
     postcssPlugin: 'postcss-plugin-px2unit',
 
     Rule(rule) {
-      if (!rule.selector || isExcluded(rule.selector, excludePatterns)) return;
-      
       const filePath = rule.source?.input.file;
+      if (isExcluded(filePath, excludePatterns)) {
+        return;
+      }
+
       const rootValue = getRootValue(opts.rootValue, filePath);
 
       rule.walkDecls((decl) => {
-        if (!decl.value || !/px/.test(decl.value)) return;
-        decl.value = convertPxToUnit(decl.value, rootValue, opts.unit, opts.minPixelValue);
+        if (!decl.value || !/px/.test(decl.value)) {
+          return;
+        }
+        decl.value = convertPxToUnit(decl.value, {
+          rootValue,
+          unit: opts.unit,
+          minPixelValue: opts.minPixelValue,
+        });
       });
     },
   };

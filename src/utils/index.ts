@@ -7,10 +7,19 @@ export function getRootValue(rootValue: Options['rootValue'], filePath?: string)
   return rootValue ?? 16;
 }
 
-export function convertPxToUnit(value: string, rootValue: number, unit: Options['unit'], minPixelValue: number): string {
+export interface ConvertConfig {
+  rootValue: number;
+  unit: Options['unit'];
+  minPixelValue: number;
+}
+
+export function convertPxToUnit(value: string, config: ConvertConfig): string {
+  const { rootValue, unit, minPixelValue } = config;
   return value.replace(/(\d*\.?\d+)px/g, (match, numStr) => {
     const num = parseFloat(numStr);
-    if (num < minPixelValue) return match;
+    if (num < minPixelValue) {
+      return match;
+    }
 
     let result: number;
     switch (unit) {
@@ -31,9 +40,15 @@ export function convertPxToUnit(value: string, rootValue: number, unit: Options[
 }
 
 export function createExcludePatterns(exclude: RegExp | string[]): RegExp[] {
-  return Array.isArray(exclude) ? exclude.map((p) => new RegExp(p)) : [exclude];
+  if (Array.isArray(exclude)) {
+    return exclude.map((p) => new RegExp(p));
+  }
+  return [exclude];
 }
 
-export function isExcluded(selector: string, patterns: RegExp[]): boolean {
-  return patterns.some((pattern) => pattern.test(selector));
+export function isExcluded(filePath: string | undefined, patterns: RegExp[]): boolean {
+  if (!filePath) {
+    return true;
+  }
+  return patterns.some((pattern) => pattern.test(filePath));
 }
