@@ -30,7 +30,7 @@ const px2unit: PluginCreator<Options> = function (options = {}) {
         return;
       }
 
-      if (!options.mediaQuery && isInMediaQuery(rule)) {
+      if (!opts.mediaQuery && isInMediaQuery(rule)) {
         return;
       }
 

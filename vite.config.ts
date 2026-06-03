@@ -16,4 +16,9 @@ export default defineConfig({
     sourcemap: true,
     minify: false,
   },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
 });
