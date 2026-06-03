@@ -38,7 +38,7 @@ yarn add px2unit
 // postcss.config.js
 export default {
   plugins: {
-    'px2unit': {},
+    px2unit: {},
   },
 };
 ```
@@ -49,9 +49,9 @@ export default {
 // postcss.config.js
 export default {
   plugins: {
-    'px2unit': {
+    px2unit: {
       unit: 'vw',
-      rootValue: 375,  // Design draft width
+      rootValue: 375, // Design draft width
       minPixelValue: 2,
       mediaQuery: true,
     },
@@ -65,7 +65,7 @@ export default {
 // postcss.config.js
 export default {
   plugins: {
-    'px2unit': {
+    px2unit: {
       rootValue: (filePath) => {
         if (filePath?.includes('mobile')) {
           return 375;
@@ -79,23 +79,23 @@ export default {
 
 ## Options
 
-| Option              | Type                                        | Default | Description                                                                 |
-| ------------------- | ------------------------------------------- | ------- | --------------------------------------------------------------------------- |
-| `unit`              | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit to convert to                                                   |
-| `rootValue`         | `number \| ((filePath?: string) => number)` | `16`    | Root value for calculation. Can be a function for dynamic values per file   |
-| `precision`         | `number`                                    | `5`     | Number of decimal places to keep                                            |
-| `minPixelValue`     | `number`                                    | `1`     | Minimum pixel value to convert. Values below this are kept as `px`          |
-| `exclude`           | `RegExp \| string[]`                        | `[]`    | File paths to exclude from conversion                                       |
-| `propWhiteList`     | `RegExp[]`                                  | `[]`    | Property whitelist. Empty array means all properties are converted           |
-| `propBlackList`     | `RegExp[]`                                  | `[]`    | Property blacklist. Properties matching are NOT converted                    |
-| `selectorBlackList` | `RegExp[]`                                  | `[]`    | Selector blacklist. Rules with matching selectors are NOT converted         |
-| `mediaQuery`        | `boolean`                                   | `false` | Whether to convert `px` values inside media queries                          |
+| Option              | Type                                        | Default | Description                                                               |
+| ------------------- | ------------------------------------------- | ------- | ------------------------------------------------------------------------- |
+| `unit`              | `'rem' \| 'vw' \| 'vh' \| 'vmin' \| 'vmax'` | `'rem'` | Target unit to convert to                                                 |
+| `rootValue`         | `number \| ((filePath?: string) => number)` | `16`    | Root value for calculation. Can be a function for dynamic values per file |
+| `precision`         | `number`                                    | `5`     | Number of decimal places to keep                                          |
+| `minPixelValue`     | `number`                                    | `1`     | Minimum pixel value to convert. Values below this are kept as `px`        |
+| `exclude`           | `RegExp \| string[]`                        | `[]`    | File paths to exclude from conversion                                     |
+| `propWhiteList`     | `RegExp[]`                                  | `[]`    | Property whitelist. Empty array means all properties are converted        |
+| `propBlackList`     | `RegExp[]`                                  | `[]`    | Property blacklist. Properties matching are NOT converted                 |
+| `selectorBlackList` | `RegExp[]`                                  | `[]`    | Selector blacklist. Rules with matching selectors are NOT converted       |
+| `mediaQuery`        | `boolean`                                   | `false` | Whether to convert `px` values inside media queries                       |
 
 ## Conversion Formula
 
-| Unit                          | Formula                  | Example (rootValue: 16) |
-| ----------------------------- | ------------------------ | ----------------------- |
-| `rem`                         | `px / rootValue`         | `32px → 2rem`           |
+| Unit                          | Formula                  | Example (rootValue: 16)            |
+| ----------------------------- | ------------------------ | ---------------------------------- |
+| `rem`                         | `px / rootValue`         | `32px → 2rem`                      |
 | `vw` / `vh` / `vmin` / `vmax` | `(px / rootValue) * 100` | `32px → 8.5333vw` (rootValue: 375) |
 
 ## Examples
@@ -122,7 +122,7 @@ export default {
   height: 10rem;
   padding: 1rem;
   font-size: 0.875rem;
-  border: 1px solid #ccc;  /* Not converted: < minPixelValue(1) */
+  border: 1px solid #ccc; /* Not converted: < minPixelValue(1) */
 }
 ```
 
@@ -152,8 +152,8 @@ export default {
 // postcss.config.js
 export default {
   plugins: {
-    'px2unit': {
-      propBlackList: [/border/],  // Don't convert border-related properties
+    px2unit: {
+      propBlackList: [/border/], // Don't convert border-related properties
     },
   },
 };
@@ -173,7 +173,7 @@ export default {
 ```css
 .box {
   width: 6.25rem;
-  border: 1px solid #000;  /* Excluded by propBlackList */
+  border: 1px solid #000; /* Excluded by propBlackList */
 }
 ```
 
@@ -183,8 +183,8 @@ export default {
 // postcss.config.js
 export default {
   plugins: {
-    'px2unit': {
-      selectorBlackList: [/^.van-/],  // Keep Vant UI components unchanged
+    px2unit: {
+      selectorBlackList: [/^.van-/], // Keep Vant UI components unchanged
     },
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "px2unit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A PostCSS plugin to convert px to rem, vw, etc.",
   "keywords": [
     "postcss",
@@ -19,6 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/wesmile2020/postcss-plugin-px2unit.git"
   },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
